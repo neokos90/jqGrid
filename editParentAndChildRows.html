@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jqGrid Edit Rows Example</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--         <link href="/assets/css/select2.min.css" rel="stylesheet" />
+        <link href="/assets/css/all.css" rel="stylesheet" />
+        <link href="/assets/css/solid.css" rel="stylesheet" /> -->
+    <!-- <link href="css/ui-base/jquery-ui.theme.css" rel="stylesheet" /> -->
+    <link href="css/ui-base/jquery-ui.css" rel="stylesheet" />
+    <link href="css/ui.jqgrid.css" rel="stylesheet" />
+    <script src="js/jquery.min.js"></script>
+    <!--         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> -->
+    <script src="js/bootstrap.min.js"></script>
+    <!--         <script src="/assets/js/select2.min.js"></script>
+        <script src="/assets/js/i18n/ru.js"></script>  -->
+    <script src="js/jqGrid/i18n/grid.locale-ru.js"></script>
+    <script src="js/jqGrid/jquery.jqGrid.min.js"></script>
+
+            <style>
+            
+            .ui-jqgrid {
+                font-size: 12px;
+            }
+            table { 
+                table-layout: fixed;
+            }
+            table th, table td { 
+                word-wrap: break-word; 
+            } 
+            .table-light tbody+tbody, .table-light td, .table-light th, .table-light thead th {
+                border-color: #b8c3c3;
+            }
+            
+            th.ui-th-column div {
+                white-space: normal !important;
+                height: auto !important;
+                padding: 2px;
+            }
+            
+            .ui-jqdialog-content .FormGrid {
+                margin: 0;
+                overflow: inherit;
+            }
+            
+            .ui-jqdialog .ui-jqdialog-titlebar{
+                height: 30px;
+            }
+            
+            .fm-button{
+                height: auto;
+            }
+            
+            .ui-jqgrid .ui-jqgrid-titlebar{
+                height: 25px;
+            }
+        </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div id="grid_container" class="mt-5">
+                <table id="table-application">
+                    <tr>
+                        <td></td>
+                    </tr>
+                </table>
+                <div id="pager"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+    var dataTable = [
+    {
+        id: '10',
+        date_create: '27-06-2019',
+        department_name: 'Отдел информационных систем',
+        status_name: 'В очереди на выполнение',
+        type_work_name: 'Не работает Интернет',
+        phone: '99-99-99',
+        auditory_name: 'В-200',
+        inventory_number: '24274',
+        comment: 'something goes wrong',
+        extra_fields: [
+        {"tw_value_field_id":"4","tw_field_value":"Microsoft Excel","type_work_name_field_id":"1","field_name":"Название программного обеспечения","field_datatype":"select","type_work_name_field_value":"Microsoft Word:Microsoft Word;Microsoft Excel:Microsoft Excel;Microsoft PowerPoint:Microsoft PowerPoint"},
+        {"tw_value_field_id":"5","tw_field_value":"Problem №1","type_work_name_field_id":"3","field_name":"Примечание","field_datatype":"textarea","type_work_name_field_value":null},
+        {"tw_value_field_id":"6","tw_field_value":"99-99-55","type_work_name_field_id":"2","field_name":"Телефон","field_datatype":"input","type_work_name_field_value":null}
+        ]
+    },
+
+
+
+    {
+        id: '20',
+        date_create: '28-06-2019',
+        department_name: 'Отдел информационных систем',
+        status_name: 'В очереди на выполнение',
+        type_work_name: 'Не работает Интернет',
+        phone: '99-99-98',
+        auditory_name: 'В-201',
+        inventory_number: '24275',
+        comment: 'something goes wrong',
+        extra_fields: [
+        {"tw_value_field_id":"7","tw_field_value":"Microsoft PowerPoint","type_work_name_field_id":"1","field_name":"Название программного обеспечения","field_datatype":"select","type_work_name_field_value":"Microsoft Word:Microsoft Word;Microsoft Excel:Microsoft Excel;Microsoft PowerPoint:Microsoft PowerPoint"},
+        {"tw_value_field_id":"8","tw_field_value":"Problem №2","type_work_name_field_id":"3","field_name":"Примечание","field_datatype":"textarea","type_work_name_field_value":null},
+        {"tw_value_field_id":"9","tw_field_value":"88-99-55","type_work_name_field_id":"2","field_name":"Телефон","field_datatype":"input","type_work_name_field_value":null}
+        ]
+    },
+    {
+        id: '30',
+        date_create: '20-06-2019',
+        department_name: 'Подготовительное отделение',
+        status_name: 'В очереди на выполнение',
+        type_work_name: 'Переустановка ОС',
+        phone: '99-99-00',
+        auditory_name: 'В-202',
+        inventory_number: '24276',
+        comment: 'something goes wrong',
+        extra_fields: [
+        {"tw_value_field_id":"10","tw_field_value":"Microsoft Word","type_work_name_field_id":"1","field_name":"Название программного обеспечения","field_datatype":"select","type_work_name_field_value":"Microsoft Word:Microsoft Word;Microsoft Excel:Microsoft Excel;Microsoft PowerPoint:Microsoft PowerPoint"},
+        {"tw_value_field_id":"11","tw_field_value":"Problem №3","type_work_name_field_id":"3","field_name":"Примечание","field_datatype":"textarea","type_work_name_field_value":null},
+        {"tw_value_field_id":"12","tw_field_value":"77-99-55","type_work_name_field_id":"2","field_name":"Телефон","field_datatype":"input","type_work_name_field_value":null}
+        ]
+    } ];
+
+
+    $(document).ready(function() {
+        $("#table-application").jqGrid({
+            // url: "/Operator/OperatorApplicationController/index",
+            datatype: "local", // datatype: "json",
+            // mtype: "GET",
+            data: dataTable,
+            colNames: ["Номер заявки в системе", "Дата создания", "Отдел", "Статус",
+                "Тип работ", "Номер телефона для связи", "Аудитория", "Инвентарный номер", "Описание проблемы", ""
+            ],
+            colModel: [
+                { name: "id", id: "id" },
+                { name: "date_create", id: "date_create" },
+                { name: "department_name", id: "department_name", },
+                {
+                    name: "status_name",
+                    id: "status_name",
+                    editable: true,
+                    edittype: "select",
+                    editoptions: {
+                    	value: "1:В очереди на выполнение;2:Принята в работу;3:Закрыта"
+                    }
+                },
+                {
+                    name: "type_work_name",
+                    id: "type_work_name",
+                    editable: true,
+                    edittype: "select",
+                    editoptions: {
+                        value: "1:Установка телефона; 2:Переустановка ОС; 3:Ремонт ПК и техники; 4:Заправка/замена картриджа; 5:Не работает Интернет"
+                    }
+                },
+                { name: "phone", id: "phone", editable: true },
+                {
+                    name: "auditory_name",
+                    id: "auditory_name",
+                    editable: true,
+                    edittype: "select",
+                    editoptions: {
+                    	value: "1:В-200; 2:В-201; 3:В-202; 4:K-300"
+                    }
+                },
+                {
+                    name: "inventory_number",
+                    id: "inventory_number",
+                    editable: true,
+                    edittype: "select",
+                    editoptions: {
+                    	value: "1:876547; 2:453213; 3:342123; 4:567496; 5:409325; 6:24274; 7:24275; 8:24276"
+                        // dataUrl: "/Operator/OperatorApplicationController/getSelect&table=inv_number",
+                        // dataInit: function(el) {
+                        //     $(el).select2({
+                        //         language: 'ru',
+                        //         width: '100%'
+                        //     });
+                        // }
+                    }
+                },
+                { name: "comment", id: "comment", editable: true, edittype: "textarea" },
+                { name: "extra_fields", id: "extra_fields", classes: "extra-field", hidden: true, title: false, 
+                	editable: false, jsonmap:"extra_fields",
+					 formatter: function (cellvalue) {
+					     if(cellvalue != null) {
+					         return JSON.stringify(cellvalue);
+					     }
+					     else
+					         return cellvalue;
+					     }
+			 }
+            ],
+            pager: "#pager",
+            height: "auto",
+            autowidth: true,
+            forceFit: true,
+            sortorder: "desc",
+            viewrecords: true,
+            gridview: true,
+            autoencode: true,
+            caption: "Список заявок",
+            rownumbers: true,
+            subGrid: true,
+            subGridBeforeExpand: function(pID, id) {
+                //получаем значение поля extra_fields по id выбранной строки
+
+                extra_field_val = $('#table-application').jqGrid('getCell', id, 'extra_fields');
+                var jsonArray = $.parseJSON( extra_field_val);
+
+                //если дополнительная информация по заявке есть, раскрываем список
+                if (jsonArray.length > 0) {
+                	console.log(true);
+                    return true;
+                }
+
+                return false;
+            },
+            subGridRowExpanded: function(subgrid_id, row_id) {
+                var subgrid_table_id;
+                subgrid_table_id = subgrid_id + "_t";
+
+                jQuery("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table>");
+
+
+                extra_field_val = $('#table-application').jqGrid('getCell', row_id, 'extra_fields');
+                var response = $.parseJSON( extra_field_val);
+                //задаем массив для подтаблицы
+
+                        var element_name, element_mode, col_name, objData;
+                        var subColNames, subColModel, subData, selectValue;
+
+                        subColNames = [];
+                        subColModel = [];
+                        subData = [];
+                        objData = {};
+
+                        for (var i = 0; i < response.length; i++) {
+
+                            element_name = {};
+                            element_name = response[i]['field_name'];
+                            subColNames.push(element_name);
+
+                            element_mode = {};
+                            element_mode = { name: "col_" + response[i]['tw_value_field_id'], id: "col_" + response[i]['tw_value_field_id'], editable: true };
+                            subColModel.push(element_mode);
+
+                            if (response[i]['field_datatype'] == 'select') {
+                                element_mode['edittype'] = "select";
+                                selectValue = response[i]['type_work_name_field_value'];
+                                // console.log(selectValue);
+
+                                element_mode['editoptions'] = { value: selectValue };
+                            }
+
+                            col_name = "col_" + response[i]['tw_value_field_id'];
+                            objData[col_name] = response[i]['tw_field_value'];
+                        }
+
+
+                        subColNames.push("");
+
+                        subColModel.push({ name: "id", id: "id", hidden: true, editable: true, editrules: { edithidden: false } });
+                        console.log(subColModel);
+                        objData['id'] = response[0]['id'];
+                        subData.push(objData);
+
+
+                        var lastSel;
+
+                        jQuery("#" + subgrid_table_id).jqGrid({
+                            datatype: "local",
+                            data: subData,
+                            colNames: subColNames,
+                            colModel: subColModel,
+                            height: '75%',
+                            caption: "Дополнительная информация",
+                            onSelectRow: function(id) {
+                                if (id && id !== lastSel) {
+                                    jQuery("#" + subgrid_table_id).restoreRow(lastSel);
+                                    lastSel = id;
+                                }
+                                jQuery("#" + subgrid_table_id).editRow(id, true);
+                            },
+                            editurl: 'clientArray'
+                            // editurl: '/operator/OperatorApplicationController/saveChangesChildTable'
+                        });
+
+
+            },
+            editurl: 'clientArray'
+
+            // editurl: "/Operator/OperatorApplicationController/saveChangesParentTable"
+        });
+
+        $("#table-application").navGrid("#pager", {
+            edit: true,
+            add: false,
+            del: false,
+            search: false,
+            refresh: false,
+            editicon: "none",
+            edittext: "Редактировать",
+        }, { /*здесь задаются параметры для формы редактирования*/
+
+        });
+
+    });
+    </script>
+</body>
+
+</html>
