@@ -7,16 +7,12 @@
     <title>jqGrid Edit Rows Example</title>
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/select2.min.css" rel="stylesheet" />
-    <!-- <link href="/assets/css/all.css" rel="stylesheet" />
-        <link href="/assets/css/solid.css" rel="stylesheet" /> 
-        <link href="css/ui-base/jquery-ui.theme.css" rel="stylesheet" />  -->
     <link href="css/ui-base/jquery-ui.css" rel="stylesheet" />
     <link href="css/ui.jqgrid.css" rel="stylesheet" />
     <script src="js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/select2.min.js"></script>
-    <!-- <script src="/assets/js/i18n/ru.js"></script>  -->
     <script src="js/jqGrid/i18n/grid.locale-ru.js"></script>
     <script src="js/jqGrid/jquery.jqGrid.min.js"></script>
 
@@ -199,9 +195,7 @@
 
         $(document).ready(function () {
             $("#table-application").jqGrid({
-                // url: "/Operator/OperatorApplicationController/index",
-                datatype: "local", // datatype: "json",
-                // mtype: "GET",
+                datatype: "local", 
                 data: dataTable,
                 colNames: ["Номер заявки в системе", "Дата создания", "Отдел", "Статус",
                     "Тип работ", "Номер телефона для связи", "Аудитория", "Инвентарный номер",
@@ -258,7 +252,6 @@
                         edittype: "select",
                         editoptions: {
                             value: "1:876547; 2:453213; 3:342123; 4:567496; 5:409325; 6:24274; 7:24275; 8:24276",
-                            // dataUrl: "/Operator/OperatorApplicationController/getSelect&table=inv_number",
                             dataInit: function (el) {
                                 $(el).select2({
                                     language: 'ru',
@@ -352,7 +345,6 @@
                         if (response[i]['field_datatype'] == 'select') {
                             element_mode['edittype'] = "select";
                             selectValue = response[i]['type_work_name_field_value'];
-                            // console.log(selectValue);
 
                             element_mode['editoptions'] = {
                                 value: selectValue
@@ -397,14 +389,12 @@
                             jQuery("#" + subgrid_table_id).editRow(id, true);
                         },
                         editurl: 'clientArray'
-                        // editurl: '/operator/OperatorApplicationController/saveChangesChildTable'
                     });
 
 
                 },
                 editurl: 'clientArray'
 
-                // editurl: "/Operator/OperatorApplicationController/saveChangesParentTable"
             });
 
             $("#table-application").navGrid("#pager", {
